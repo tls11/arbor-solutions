@@ -1,0 +1,3 @@
+[build]
+  publish = "public"
+  command = "pnpm exec tailwindcss -i ./src/input.css -o ./public/output.css --minify"

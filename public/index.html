@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#01462b" />
+    <meta
+      name="description"
+      id="meta-description"
+      content="Thoughtful land care and lasting impact. Expert tree care and sustainable land management in the Hudson Valley."
+    />
+    <title>Arbor Solutions</title>
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="stylesheet" href="output.css" />
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.store("route", {
+          page: "#home",
+          mobileMenuIsOpen: false,
+          servicesMenuIsOpen: false,
+          formStatus: "",
+          titles: {
+            "#home": "Arbor Solutions",
+            "#about": "About | Arbor Solutions",
+            "#tree-care": "Tree Care | Arbor Solutions",
+            "#trails": "Trail Design & Construction | Arbor Solutions",
+            "#climbing": "Contract Climbing | Arbor Solutions",
+            "#reports": "Reports | Arbor Solutions",
+            "#estimate": "Request an Estimate | Arbor Solutions",
+            "#contact": "Contact | Arbor Solutions",
+          },
+          descriptions: {
+            "#home":
+              "Thoughtful land care and lasting impact. Expert tree care and sustainable land management in the Hudson Valley.",
+            "#about":
+              "Meet Kyle and Nichole, owner-operators of Arbor Solutions. ISA Certified Arborist, CTSP, TRAQ, and OSHA 30.",
+            "#tree-care":
+              "Tree care for residential, estate, municipal, and commercial properties in the Hudson Valley.",
+            "#trails":
+              "Trail design and construction for walking, hiking, mountain biking, and ATV or UTV routes.",
+            "#climbing":
+              "Contract climbing with technical rigging, crane removals, expert felling, and SRS and MRS systems.",
+            "#reports":
+              "Certified arborist insurance reports and written assessments from Arbor Solutions.",
+            "#estimate":
+              "Request an estimate from Arbor Solutions for tree care, trails, contract climbing, or reports.",
+            "#contact":
+              "Call or email Arbor Solutions. Serving Dutchess, Ulster, Columbia, and Schoharie counties.",
+          },
+          init() {
+            window.addEventListener("hashchange", () => this.updateFromHash())
+            this.updateFromHash()
+          },
+          updateFromHash() {
+            const known = Object.keys(this.titles)
+            const hash = window.location.hash || "#home"
+            this.page = known.includes(hash) ? hash : "#home"
+            this.mobileMenuIsOpen = false
+            this.servicesMenuIsOpen = false
+            document.title = this.titles[this.page]
+            document.getElementById("meta-description").setAttribute("content", this.descriptions[this.page])
+            window.scrollTo(0, 0)
+          },
+          is(hash) {
+            return this.page === hash
+          },
+          isService() {
+            return ["#tree-care", "#trails", "#climbing", "#reports"].includes(this.page)
+          },
+          async submitEstimate(event) {
+            const form = event.target
+            if (this.formStatus === "sending") return
+            this.formStatus = "sending"
+            const body = new URLSearchParams(new FormData(form)).toString()
+            try {
+              const response = await fetch("/", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body,
+              })
+              if (!response.ok) throw new Error("Form post failed")
+              this.formStatus = "sent"
+            } catch (error) {
+              this.formStatus = ""
+              form.submit()
+            }
+          },
+        })
+      })
+    </script>
+    <script defer src="js/alpine-focus.min.js"></script>
+    <script defer src="js/alpine-ui.min.js"></script>
+    <script defer src="js/alpine.min.js"></script>
+  </head>
+  <body class="flex min-h-dvh flex-col bg-forest font-sans text-ink antialiased" x-data="{}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <symbol id="icon-tree" viewBox="0 0 48 48">
+        <path fill="currentColor" d="M24 2 36 16h-6l10 14H30v14H18V30H8l10-14h-6L24 2z" />
+      </symbol>
+      <symbol id="icon-trail" viewBox="0 0 48 48">
+        <path d="M23 44V6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <path d="M23 11h16l-4.5 6.5L39 24H23Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        <path d="M23 28H8l4.5 6L8 40h15Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="icon-climb" viewBox="0 0 48 48">
+        <path d="M13 10h8a14 14 0 0 1 0 28h-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        <path d="M13 10v8M13 30v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-report" viewBox="0 0 48 48">
+        <path d="M14 6h14l10 10v26H14V6Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        <path d="M28 6v10h10M20 26h12M20 32h12M20 38h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </symbol>
+    </svg>
+
+    <header class="sticky top-0 z-40 border-b border-gold/40 bg-forest-deep">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 md:px-8 md:py-4">
+        <a href="#home" class="shrink-0">
+          <img
+            src="images/logo-horizontal.png"
+            width="800"
+            height="211"
+            alt="Arbor Solutions, tree and trail"
+            class="h-auto w-36 sm:w-52 md:w-72"
+          />
+        </a>
+
+        <div class="flex items-center gap-3 sm:gap-5">
+          <a href="tel:+18453701868" class="text-right">
+            <span class="eyebrow text-[0.65rem] sm:text-xs">Call</span>
+            <span class="phone-link-compact mt-0.5">845-370-1868</span>
+          </a>
+          <a href="#estimate" class="btn btn-sm hidden whitespace-nowrap sm:inline-block">Request an Estimate</a>
+          <button
+            type="button"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center text-ink md:hidden"
+            @click="$store.route.mobileMenuIsOpen = true"
+            aria-label="Open menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-7 w-7" aria-hidden="true">
+              <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-gold/30 px-5 pb-3 sm:hidden">
+        <a href="#estimate" class="btn btn-sm w-full">Request an Estimate</a>
+      </div>
+
+      <div class="mx-auto hidden max-w-7xl px-5 md:block md:px-8">
+        <nav class="flex items-center justify-center gap-10 border-t border-gold/30 py-4" aria-label="Primary">
+          <a
+            href="#home"
+            class="nav-link"
+            :class="$store.route.is('#home') ? 'border-gold text-wheat' : 'border-transparent'"
+            :aria-current="$store.route.is('#home') ? 'page' : false"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="nav-link"
+            :class="$store.route.is('#about') ? 'border-gold text-wheat' : 'border-transparent'"
+            :aria-current="$store.route.is('#about') ? 'page' : false"
+            >About</a
+          >
+          <div x-menu x-model="$store.route.servicesMenuIsOpen" class="relative">
+            <button
+              x-menu:button
+              type="button"
+              class="nav-link"
+              :class="$store.route.isService() ? 'border-gold text-wheat' : 'border-transparent'"
+            >
+              Services
+            </button>
+            <div
+              x-menu:items
+              x-cloak
+              class="panel absolute left-0 z-50 mt-3 min-w-max p-2 text-xl shadow-lg"
+            >
+              <a
+                x-menu:item
+                href="#tree-care"
+                class="flex items-center gap-3 whitespace-nowrap px-3 py-2.5 hover:text-gold"
+                @click="$store.route.servicesMenuIsOpen = false"
+              >
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-tree"></use></svg>
+                Tree Care
+              </a>
+              <a
+                x-menu:item
+                href="#trails"
+                class="flex items-center gap-3 whitespace-nowrap px-3 py-2.5 hover:text-gold"
+                @click="$store.route.servicesMenuIsOpen = false"
+              >
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-trail"></use></svg>
+                Trail Design &amp; Construction
+              </a>
+              <a
+                x-menu:item
+                href="#climbing"
+                class="flex items-center gap-3 whitespace-nowrap px-3 py-2.5 hover:text-gold"
+                @click="$store.route.servicesMenuIsOpen = false"
+              >
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-climb"></use></svg>
+                Contract Climbing
+              </a>
+              <a
+                x-menu:item
+                href="#reports"
+                class="flex items-center gap-3 whitespace-nowrap px-3 py-2.5 hover:text-gold"
+                @click="$store.route.servicesMenuIsOpen = false"
+              >
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-report"></use></svg>
+                Reports
+              </a>
+            </div>
+          </div>
+          <a
+            href="#contact"
+            class="nav-link"
+            :class="$store.route.is('#contact') ? 'border-gold text-wheat' : 'border-transparent'"
+            :aria-current="$store.route.is('#contact') ? 'page' : false"
+            >Contact</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <!-- Opacity stays at 100 so x-dialog does not set display:none before the overlay and panel finish their 300ms transitions. Keep this duration matched to those. -->
+    <div
+      x-dialog
+      x-model="$store.route.mobileMenuIsOpen"
+      x-cloak
+      x-transition:enter="transition duration-300"
+      x-transition:enter-start="opacity-100"
+      x-transition:enter-end="opacity-100"
+      x-transition:leave="transition duration-300"
+      x-transition:leave-start="opacity-100"
+      x-transition:leave-end="opacity-100"
+      class="fixed inset-0 z-50 md:hidden"
+    >
+      <div
+        x-dialog:overlay
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/60"
+      ></div>
+      <div
+        x-dialog:panel
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="[transform:translateX(100%)]"
+        x-transition:enter-end="[transform:translateX(0)]"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-end="[transform:translateX(100%)]"
+        class="fixed inset-0 flex flex-col overflow-y-auto bg-forest-deep px-6 pb-10 pt-6"
+      >
+        <h2 x-dialog:title class="sr-only">Menu</h2>
+        <div class="flex items-center justify-between">
+          <a href="#home" class="shrink-0" @click="$store.route.mobileMenuIsOpen = false">
+            <img
+              src="images/logo-horizontal.png"
+              width="800"
+              height="211"
+              alt="Arbor Solutions, tree and trail"
+              class="h-9 w-auto"
+            />
+          </a>
+          <button
+            type="button"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center"
+            @click="$store.route.mobileMenuIsOpen = false"
+            aria-label="Close menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6" aria-hidden="true">
+              <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+        <a href="#estimate" class="btn mt-8 w-full" @click="$store.route.mobileMenuIsOpen = false">Request an Estimate</a>
+        <nav class="mt-6 flex flex-col text-3xl" aria-label="Mobile">
+          <a class="border-b border-gold/30 py-4" href="#home" @click="$store.route.mobileMenuIsOpen = false">Home</a>
+          <a class="border-b border-gold/30 py-4" href="#about" @click="$store.route.mobileMenuIsOpen = false">About</a>
+          <div x-disclosure class="border-b border-gold/30">
+            <button x-disclosure:button type="button" class="flex w-full items-center justify-between py-4 text-left text-3xl">
+              Services
+              <span class="text-gold" aria-hidden="true">+</span>
+            </button>
+            <div x-disclosure:panel x-cloak class="flex flex-col pb-4 pl-2 text-2xl">
+              <a class="flex items-center gap-3 py-3" href="#tree-care" @click="$store.route.mobileMenuIsOpen = false">
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-tree"></use></svg>
+                Tree Care
+              </a>
+              <a class="flex items-center gap-3 py-3" href="#trails" @click="$store.route.mobileMenuIsOpen = false">
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-trail"></use></svg>
+                Trail Design &amp; Construction
+              </a>
+              <a class="flex items-center gap-3 py-3" href="#climbing" @click="$store.route.mobileMenuIsOpen = false">
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-climb"></use></svg>
+                Contract Climbing
+              </a>
+              <a class="flex items-center gap-3 py-3" href="#reports" @click="$store.route.mobileMenuIsOpen = false">
+                <svg class="h-6 w-6 shrink-0 text-gold" aria-hidden="true"><use href="#icon-report"></use></svg>
+                Reports
+              </a>
+            </div>
+          </div>
+          <a class="border-b border-gold/30 py-4" href="#contact" @click="$store.route.mobileMenuIsOpen = false">Contact</a>
+        </nav>
+      </div>
+    </div>
+
+    <main class="flex flex-1 flex-col">
+      <div x-cloak x-show="$store.route.is('#home')" x-transition.duration.300ms>
+        <section>
+          <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
+            <img
+              src="images/hero-home.jpg"
+              width="2000"
+              height="1125"
+              alt="A leaf-covered trail through an autumn hardwood forest."
+              class="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-forest via-forest/25 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 mx-auto hidden w-full max-w-7xl px-8 pb-10 md:block">
+              <p class="eyebrow">Rooted in expertise. Guided by stewardship. Inspired by nature.</p>
+              <h1 class="display mt-3 max-w-4xl">Thoughtful Land Care. Lasting Impact.</h1>
+            </div>
+          </div>
+          <div class="mx-auto w-full max-w-7xl px-5 py-12 md:px-8 md:py-16">
+            <div class="md:hidden">
+              <p class="eyebrow">Rooted in expertise. Guided by stewardship. Inspired by nature.</p>
+              <h1 class="display mt-3">Thoughtful Land Care. Lasting Impact.</h1>
+            </div>
+            <p class="copy mt-6 md:mt-0">
+              Expert tree care and sustainable land management rooted in a love of the outdoors.
+            </p>
+            <p class="copy mt-4">
+              At Arbor Solutions, we believe caring for the land means more than maintaining trees and landscapes. It's about creating safer
+              spaces, healthier forests, and meaningful ways to enjoy the outdoors.
+            </p>
+            <p class="copy mt-4">
+              Serving the Hudson Valley, we bring expertise, a commitment to safety, and a thoughtful approach to every project.
+            </p>
+            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                class="btn w-full sm:w-auto"
+                @click="document.getElementById('services').scrollIntoView({ behavior: 'smooth' })"
+              >
+                Explore Our Services
+              </button>
+              <a href="#contact" class="btn-quiet w-full sm:w-auto">Get in Touch</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="border-t border-gold/30">
+          <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <h2 class="section-title">Caring for Your Land, With Purpose</h2>
+            <p class="copy mt-6">
+              Your property is more than a piece of land. We help you care for it with confidence through thoughtful, sustainable solutions that
+              support its health, safety, and beauty.
+            </p>
+            <ul class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <li class="panel-soft p-6">
+                <h3 class="font-serif text-2xl text-wheat">Expertise You Can Trust</h3>
+                <p class="mt-3 text-lg leading-relaxed text-ink">
+                  Professional knowledge and hands-on experience guide every project.
+                </p>
+              </li>
+              <li class="panel-soft p-6">
+                <h3 class="font-serif text-2xl text-wheat">Safety at the Forefront</h3>
+                <p class="mt-3 text-lg leading-relaxed text-ink">
+                  We prioritize the safety of people, property, and the environment.
+                </p>
+              </li>
+              <li class="panel-soft p-6">
+                <h3 class="font-serif text-2xl text-wheat">A Sustainable Perspective</h3>
+                <p class="mt-3 text-lg leading-relaxed text-ink">
+                  We consider the long-term health of your trees and landscape.
+                </p>
+              </li>
+              <li class="panel-soft p-6">
+                <h3 class="font-serif text-2xl text-wheat">A Personal Approach</h3>
+                <p class="mt-3 text-lg leading-relaxed text-ink">
+                  We bring care, integrity, and a genuine passion for the outdoors to every project.
+                </p>
+              </li>
+              <li class="panel-soft p-6">
+                <h3 class="font-serif text-2xl text-wheat">Peace of Mind</h3>
+                <p class="mt-3 text-lg leading-relaxed text-ink">We're licensed and insured.</p>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="border-t border-gold/30">
+          <div class="mx-auto grid max-w-7xl items-center gap-10 px-5 py-16 md:grid-cols-[24rem_minmax(0,36rem)] md:gap-16 md:px-8 md:py-20">
+            <img
+              src="images/love-of-the-outdoors.jpg"
+              width="768"
+              height="960"
+              alt="Looking up the trunk of a massive moss-covered tree."
+              class="photo aspect-[4/5] w-full object-center"
+            />
+            <div>
+              <h2 class="section-title">A Genuine Love of the Outdoors</h2>
+              <p class="copy mt-6">
+                We bring together professional tree care, environmental knowledge, and a genuine love of the outdoors to help landowners care
+                for their properties with confidence and purpose.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" class="scroll-mt-40 border-t border-gold/30">
+          <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <h2 class="section-title">Services</h2>
+            <ul class="mt-10 grid gap-6 sm:grid-cols-2">
+              <li>
+                <a href="#tree-care" class="card">
+                  <span class="icon-badge" aria-hidden="true">
+                    <svg class="h-8 w-8"><use href="#icon-tree"></use></svg>
+                  </span>
+                  <h3 class="font-serif text-2xl">Tree Care</h3>
+                  <p class="text-lg leading-snug text-ink">Serving residential, estate, municipal and commercial properties.</p>
+                </a>
+              </li>
+              <li>
+                <a href="#trails" class="card">
+                  <span class="icon-badge" aria-hidden="true">
+                    <svg class="h-8 w-8"><use href="#icon-trail"></use></svg>
+                  </span>
+                  <h3 class="font-serif text-2xl">Trail Design &amp; Construction</h3>
+                  <p class="text-lg leading-snug text-ink">Walking, hiking, mountain biking, and ATV / UTV trails.</p>
+                </a>
+              </li>
+              <li>
+                <a href="#climbing" class="card">
+                  <span class="icon-badge" aria-hidden="true">
+                    <svg class="h-8 w-8"><use href="#icon-climb"></use></svg>
+                  </span>
+                  <h3 class="font-serif text-2xl">Contract Climbing</h3>
+                  <p class="text-lg leading-snug text-ink">Saws, climbing, and rigging for hazardous and technical work.</p>
+                </a>
+              </li>
+              <li>
+                <a href="#reports" class="card">
+                  <span class="icon-badge" aria-hidden="true">
+                    <svg class="h-8 w-8"><use href="#icon-report"></use></svg>
+                  </span>
+                  <h3 class="font-serif text-2xl">Reports</h3>
+                  <p class="text-lg leading-snug text-ink">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.
+                  </p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="border-t border-gold/30">
+          <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <div class="panel px-6 py-10 md:px-10 md:py-14">
+              <h2 class="section-title">Let's Help Your Property Thrive</h2>
+              <p class="copy mt-6">
+                From tree care to landscape improvements and trail building, we're here to help you make the most of your land.
+              </p>
+              <p class="mt-4 font-serif text-2xl text-wheat md:text-3xl">Let's create something lasting together.</p>
+              <a href="#contact" class="btn mt-8 w-full sm:w-auto">Contact Us</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#about')" x-transition.duration.300ms>
+        <article class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+          <div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
+            <div>
+              <section>
+                <h2 class="section-title">Guiding Principles</h2>
+                <p class="copy mt-6">
+                  We believe that caring for land helps people access and enjoy nature in meaningful ways. Whether we're tending trees, improving
+                  landscapes, or building trails, our projects are more than tasks, they're opportunities to inspire the next generation of land
+                  stewards.
+                </p>
+                <p class="copy mt-4">
+                  When trails get used, when a forest becomes healthier, when a landowner feels newly connected to their property...
+                  <em>That's</em> the work that excites us. We want to encourage people to appreciate the land they live on and to care for it
+                  with curiosity, intention, and pride.
+                </p>
+              </section>
+
+              <section class="mt-12 md:mt-16">
+                <h2 class="section-title">Our Mission</h2>
+                <p class="copy mt-6">
+                  Provide expert, sustainable, and safety focused services throughout the Hudson Valley while enhancing the health, safety, and
+                  beauty of the region's landscape.
+                </p>
+              </section>
+            </div>
+            <img
+              src="images/autumn-woods.jpg"
+              width="864"
+              height="1080"
+              alt="A path through a stand of yellow maples in autumn."
+              class="photo aspect-[4/5] object-center"
+            />
+          </div>
+
+          <section class="mt-16">
+            <h2 class="section-title">Who We Are</h2>
+            <div class="mt-8 grid gap-6 md:grid-cols-2">
+              <div class="photo-pair-frame">
+                <img
+                  src="images/about-owners.jpg"
+                  width="900"
+                  height="1200"
+                  alt="Kyle and Nichole outdoors by a lake."
+                  class="photo-pair-owners"
+                />
+              </div>
+              <div class="photo-pair-frame">
+                <img
+                  src="images/about-championship.jpg"
+                  width="900"
+                  height="1088"
+                  alt="Kyle and Nichole at the 2026 ISA Asia Pacific Tree Climbing Championship."
+                  class="photo-pair-championship"
+                />
+              </div>
+            </div>
+            <div class="panel mt-6 p-6 md:p-8">
+              <p class="font-serif text-3xl md:text-4xl">Kyle and Nichole</p>
+              <p class="eyebrow mt-2">Owner-operators</p>
+              <h3 class="mt-8 font-serif text-2xl">Certifications</h3>
+              <ul class="mt-4 flex flex-wrap gap-3">
+                <li class="chip px-4 py-2 text-base text-ink">ISA Certified Arborist</li>
+                <li class="chip px-4 py-2 text-base text-ink">CTSP — Certified Tree-care Safety Professional</li>
+                <li class="chip px-4 py-2 text-base text-ink">TRAQ — Tree Risk Assessment Qualified</li>
+                <li class="chip px-4 py-2 text-base text-ink">OSHA 30</li>
+              </ul>
+            </div>
+            <div class="copy-wide mt-8 space-y-4">
+              <p class="copy">
+                We're <strong>Kyle and Nichole</strong>: husband and wife, business partners, and outdoor recreators. Our story began in
+                State Parks, where we worked side-by-side stewarding the land.
+              </p>
+              <p class="copy">
+                Kyle's connection to trees started early. His dad was <em>climbing a tree</em> when he got the call that Kyle's mom had
+                gone into labor. Maybe that was foreshadowing, because Kyle has worked as a professional in tree care since 2015, bringing
+                skill, respect, and deep environmental knowledge to every project. He earned a Bachelor's degree in Environmental Science
+                from SUNY Oneonta where he learned about trail design and construction. He is now an Owner-Operator of Arbor Solutions.
+              </p>
+              <p class="copy">
+                Nichole earned her Bachelor's Degree in Environmental Management and Protection from Humboldt State University. She spent
+                most of her career as a Naturalist in National, State, and Regional Parks. She dedicated fifteen years to learning about
+                plants and animals, educating the public, community leaders, and elected officials to help foster emotional and
+                intellectual connections between people and the environment. She has spent several years as a Program Manager for a
+                wildfire research collaborative. She is now an Owner-Operator of Arbor Solutions.
+              </p>
+              <p class="copy">Together, we pair science-based land stewardship with hands-on experience and an honest love of the outdoors.</p>
+            </div>
+          </section>
+        </article>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#tree-care')" x-transition.duration.300ms>
+        <article>
+          <img
+            src="images/tree-care.jpg"
+            width="1920"
+            height="1080"
+            alt="A tape measure stretched across a cut stump, held by a person in a high-visibility jacket."
+            class="aspect-video w-full object-cover object-center"
+          />
+          <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <header class="service-heading">
+              <span class="icon-badge shrink-0" aria-hidden="true">
+                <svg class="h-8 w-8"><use href="#icon-tree"></use></svg>
+              </span>
+              <h1 class="display">Tree Care</h1>
+            </header>
+            <p class="copy mt-6">Serving residential, estate, municipal and commercial properties.</p>
+            <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <li class="panel px-5 py-4 text-lg md:text-xl">Risk assessment</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Insurance Reports by Certified Arborist</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Removals</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Trimming</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Cabling</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Planting</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Stump grind</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Storm work</li>
+              <li class="panel px-5 py-4 text-lg md:text-xl">Diagnosis</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed sm:col-span-2 md:text-xl lg:col-span-3">
+                Consulting: determine if what you were quoted is fair, long term tree management plans
+              </li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed sm:col-span-2 md:text-xl lg:col-span-3">
+                Stewardship: proactive approach to assess tree health, wellness checks, mitigation, 1, 3 or 5 year tree care plans
+              </li>
+            </ul>
+            <a href="#estimate" class="btn mt-10 w-full sm:w-auto">Request an Estimate</a>
+          </div>
+        </article>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#trails')" x-transition.duration.300ms>
+        <article>
+          <img
+            src="images/hero-trails.jpg"
+            width="2000"
+            height="1125"
+            alt="A footpath along a mossy stand of hardwoods."
+            class="aspect-video w-full object-cover object-center"
+          />
+          <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+            <header class="service-heading">
+              <span class="icon-badge shrink-0" aria-hidden="true">
+                <svg class="h-8 w-8"><use href="#icon-trail"></use></svg>
+              </span>
+              <h1 class="display max-w-4xl">Trail Design &amp; Construction</h1>
+            </header>
+            <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Walking</li>
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Hiking</li>
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Mountain Biking</li>
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">ATV, UTV</li>
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Mapping</li>
+              <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Maintenance</li>
+            </ul>
+            <a href="#estimate" class="btn mt-10 w-full sm:w-auto">Request an Estimate</a>
+          </div>
+        </article>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#climbing')" x-transition.duration.300ms>
+        <article class="mx-auto grid max-w-7xl items-start gap-10 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
+          <img
+            src="images/contract-climbing.jpg"
+            width="760"
+            height="950"
+            alt="A climber in a red jacket working in a large bare tree."
+            class="photo aspect-[4/5]"
+          />
+          <div>
+            <header class="service-heading">
+              <span class="icon-badge shrink-0" aria-hidden="true">
+                <svg class="h-8 w-8"><use href="#icon-climb"></use></svg>
+              </span>
+              <h1 class="display">Contract Climbing</h1>
+            </header>
+            <ul class="mt-8 grid gap-4">
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Provides own saws, climbing and rigging equipment</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Hazardous/technical Rigging</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Crane Removals</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Expert Felling</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">SRS &amp; MRS Climbing Systems</li>
+              <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Spikeless</li>
+            </ul>
+            <a href="#estimate" class="btn mt-8 w-full sm:w-auto">Request an Estimate</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- Reports body copy is placeholder until client provides final text. -->
+      <div x-cloak x-show="$store.route.is('#reports')" x-transition.duration.300ms>
+        <article class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+          <header class="service-heading">
+            <span class="icon-badge shrink-0" aria-hidden="true">
+              <svg class="h-8 w-8"><use href="#icon-report"></use></svg>
+            </span>
+            <h1 class="display">Reports</h1>
+          </header>
+          <p class="copy mt-6">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.
+          </p>
+          <a href="#estimate" class="btn mt-8 w-full sm:w-auto">Request an Estimate</a>
+        </article>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#estimate')" x-transition.duration.300ms>
+        <article class="mx-auto max-w-3xl px-5 py-16 md:px-8 md:py-24">
+          <h1 class="display">Request an Estimate</h1>
+
+          <form
+            x-show="$store.route.formStatus !== 'sent'"
+            x-cloak
+            class="mt-8 grid gap-5 md:mt-10"
+            name="estimate"
+            method="POST"
+            action="/"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            @submit.prevent="$store.route.submitEstimate($event)"
+          >
+            <input type="hidden" name="form-name" value="estimate" />
+            <input type="hidden" name="subject" value="Estimate request from Arbor Solutions site" />
+            <p class="hidden">
+              <label>Don't fill this out: <input name="bot-field" /></label>
+            </p>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label class="mb-2 block text-base font-semibold text-gold" for="first-name">First name</label>
+                <input class="field" id="first-name" name="first-name" type="text" autocomplete="given-name" required />
+              </div>
+              <div>
+                <label class="mb-2 block text-base font-semibold text-gold" for="last-name">Last name</label>
+                <input class="field" id="last-name" name="last-name" type="text" autocomplete="family-name" required />
+              </div>
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label class="mb-2 block text-base font-semibold text-gold" for="email">Email</label>
+                <input class="field" id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div>
+                <label class="mb-2 block text-base font-semibold text-gold" for="phone">Phone</label>
+                <input class="field" id="phone" name="phone" type="tel" autocomplete="tel" required />
+              </div>
+            </div>
+            <div>
+              <label class="mb-2 block text-base font-semibold text-gold" for="address">Property address</label>
+              <input class="field" id="address" name="address" type="text" autocomplete="street-address" required />
+            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div
+                x-data="{
+                  county: null,
+                  counties: [
+                    { id: 1, name: 'Dutchess County', disabled: false },
+                    { id: 2, name: 'Ulster County', disabled: false },
+                    { id: 3, name: 'Columbia County', disabled: false },
+                    { id: 4, name: 'Schoharie County', disabled: false },
+                  ],
+                  get label() {
+                    return this.county ? this.county.name : 'Select a county'
+                  },
+                }"
+              >
+                <div x-listbox x-model="county" class="relative border-0 bg-transparent p-0">
+                  <label x-listbox:label class="mb-2 block text-base font-semibold text-gold">County</label>
+                  <input
+                    name="county"
+                    required
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-label="County"
+                    class="pointer-events-none absolute bottom-0 left-0 h-14 w-full opacity-0"
+                    :value="county ? county.name : ''"
+                    x-effect="$el.setCustomValidity(county ? '' : 'Select a county')"
+                  />
+                  <button type="button" x-listbox:button class="field group flex w-full items-center justify-between gap-2 text-left">
+                    <span x-text="label" class="truncate" :class="{ 'text-wheat/60': ! $listbox.value }"></span>
+                    <svg class="size-5 shrink-0 text-gold/70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <ul
+                    x-listbox:options
+                    x-cloak
+                    class="panel absolute z-20 mt-2 max-h-80 w-full overflow-y-auto overscroll-contain p-1.5 shadow-lg outline-none"
+                  >
+                    <template x-for="countyOption in counties" :key="countyOption.id">
+                      <li
+                        x-listbox:option
+                        :value="countyOption"
+                        :disabled="countyOption.disabled"
+                        :class="{
+                          'bg-gold/15 text-wheat': $listboxOption.isActive,
+                          'text-ink': ! $listboxOption.isActive && ! $listboxOption.isDisabled,
+                          'cursor-not-allowed text-wheat/40': $listboxOption.isDisabled,
+                        }"
+                        class="group flex w-full cursor-default items-center rounded-md px-2 py-2.5 text-lg transition-colors"
+                      >
+                        <div class="w-6 shrink-0">
+                          <svg
+                            class="size-5 shrink-0 text-gold"
+                            x-show="$listboxOption.isSelected"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </div>
+                        <span x-text="countyOption.name"></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+              <div
+                x-data="{
+                  values: [],
+                  services: [
+                    { id: 1, name: 'Tree Care', disabled: false },
+                    { id: 2, name: 'Trail Design & Construction', disabled: false },
+                    { id: 3, name: 'Contract Climbing', disabled: false },
+                    { id: 4, name: 'Reports', disabled: false },
+                    { id: 5, name: 'Not sure', disabled: false },
+                  ],
+                  get label() {
+                    if (this.values.length === 0) {
+                      return 'Select services'
+                    }
+                    return this.values.length === 1 ? this.values[0].name : `${this.values.length} selected`
+                  },
+                }"
+              >
+                <div x-listbox x-model="values" class="relative border-0 bg-transparent p-0" multiple>
+                  <label x-listbox:label class="mb-2 block text-base font-semibold text-gold">Service</label>
+                  <input
+                    name="service"
+                    required
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-label="Service"
+                    class="pointer-events-none absolute bottom-0 left-0 h-14 w-full opacity-0"
+                    :value="values.map((service) => service.name).join(', ')"
+                    x-effect="$el.setCustomValidity(values.length ? '' : 'Select at least one service')"
+                  />
+                  <button
+                    type="button"
+                    x-listbox:button
+                    class="field group flex w-full items-center justify-between gap-2 text-left"
+                  >
+                    <span x-text="label" class="truncate" :class="{ 'text-wheat/60': $listbox.value.length === 0 }"></span>
+                    <svg class="size-5 shrink-0 text-gold/70" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path
+                        fill-rule="evenodd"
+                        d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                  <ul
+                    x-listbox:options
+                    x-cloak
+                    class="panel absolute z-20 mt-2 max-h-80 w-full overflow-y-auto overscroll-contain p-1.5 shadow-lg outline-none"
+                  >
+                    <template x-for="service in services" :key="service.id">
+                      <li
+                        x-listbox:option
+                        :value="service"
+                        :disabled="service.disabled"
+                        :class="{
+                          'bg-gold/15 text-wheat': $listboxOption.isActive,
+                          'text-ink': ! $listboxOption.isActive && ! $listboxOption.isDisabled,
+                          'cursor-not-allowed text-wheat/40': $listboxOption.isDisabled,
+                        }"
+                        class="group flex w-full cursor-default items-center rounded-md px-2 py-2.5 text-lg transition-colors"
+                      >
+                        <div class="w-6 shrink-0">
+                          <svg
+                            class="size-5 shrink-0 text-gold"
+                            x-show="$listboxOption.isSelected"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                              clip-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </div>
+                        <span x-text="service.name"></span>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="mb-2 block text-base font-semibold text-gold" for="message">What do you need?</label>
+              <textarea class="field min-h-36" id="message" name="message" required></textarea>
+            </div>
+            <button class="btn w-full sm:w-auto" type="submit" :disabled="$store.route.formStatus === 'sending'">Send request</button>
+          </form>
+
+          <p x-show="$store.route.formStatus === 'sent'" x-cloak class="mt-10 font-serif text-2xl md:text-3xl">
+            We received your request and will reply by email or phone.
+          </p>
+        </article>
+      </div>
+
+      <div x-cloak x-show="$store.route.is('#contact')" x-transition.duration.300ms class="flex flex-1 flex-col">
+        <article class="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-16 md:px-8 md:py-24">
+          <p class="font-serif text-3xl leading-tight text-ink md:text-4xl">Call or email for your tree and trail needs.</p>
+          <div class="mt-10 grid gap-7 border-t border-gold/30 pt-8 sm:grid-cols-2 sm:gap-x-12">
+            <div>
+              <span class="eyebrow">Phone</span>
+              <a class="mt-2 block font-serif text-2xl font-semibold text-wheat" href="tel:+18453701868">845-370-1868</a>
+            </div>
+            <div>
+              <span class="eyebrow">Email</span>
+              <a class="mt-2 block text-2xl text-ink underline decoration-gold underline-offset-4" href="mailto:info@ArborSolutionsNY.com"
+                >info@ArborSolutionsNY.com</a
+              >
+            </div>
+          </div>
+          <h2 class="section-title mt-14 text-center sm:text-left">Serving</h2>
+          <div class="mt-6 flex flex-col items-center gap-6 sm:flex-row sm:items-center">
+            <svg
+              class="h-48 w-auto shrink-0 sm:h-56"
+              width="171"
+              height="224"
+              viewBox="0 0 167.55 220"
+              role="img"
+              aria-label="Map of Ulster, Dutchess, Columbia, and Schoharie counties. Greene County is shown only as context between them."
+            >
+              <path fill="none" stroke="#CAA700" stroke-opacity="0.35" stroke-width="1.4" stroke-linejoin="round" d="M61.5,112.9 L59.4,112.7 L36.2,100.8 L47.2,80.7 L45.7,79.9 L52.2,77.3 L52.5,77.8 L52.9,77.8 L54.4,78.6 L54.6,79.1 L55.0,79.2 L55.5,79.8 L56.0,79.4 L57.1,79.6 L58.0,79.1 L58.9,79.6 L59.3,79.2 L60.2,78.9 L61.1,79.0 L62.5,78.8 L63.2,78.2 L63.6,77.4 L64.3,76.6 L65.5,76.6 L65.8,76.9 L64.8,72.6 L97.3,67.6 L107.0,65.8 L112.4,65.0 L112.9,65.1 L113.2,65.4 L113.2,65.5 L113.0,65.4 L112.9,65.7 L113.2,66.4 L113.1,66.6 L113.4,66.9 L113.3,68.9 L111.9,74.5 L111.5,75.7 L111.3,76.9 L111.6,77.7 L111.7,78.8 L111.4,79.7 L111.8,80.5 L112.4,83.1 L112.5,84.0 L112.3,84.7 L112.7,86.6 L112.3,90.1 L112.1,91.1 L111.6,92.2 L110.4,93.7 L109.2,94.1 L108.4,94.8 L107.8,94.8 L107.4,95.0 L105.9,96.9 L105.6,98.2 L105.7,99.7 L105.1,102.2 L104.3,103.4 L103.2,104.6 L102.8,104.7 L102.3,105.1 L101.5,105.3 L101.3,105.6 L101.2,106.9 L100.8,107.6 L100.4,109.1 L99.5,110.9 L98.8,110.7 L90.3,104.2 L90.1,106.0 L88.0,106.2 L86.2,105.1 L82.9,115.1 L61.5,112.9 Z"><title>Greene County</title></path>
+              <path fill="#CAA700" fill-opacity="0.22" stroke="#CAA700" stroke-width="1.6" stroke-linejoin="round" d="M56.2,21.6 L61.2,21.4 L63.9,19.7 L64.1,19.9 L64.7,19.8 L64.9,20.5 L65.4,20.9 L65.5,21.2 L64.8,22.7 L65.1,23.9 L64.3,25.0 L63.8,25.3 L63.2,25.0 L61.2,25.2 L60.0,25.5 L59.5,25.9 L59.6,26.4 L62.4,30.2 L63.1,30.2 L63.0,30.9 L66.1,30.5 L66.3,30.3 L70.0,31.4 L71.9,31.1 L72.3,28.8 L73.9,30.5 L73.4,34.0 L73.5,36.4 L73.0,38.7 L72.1,40.8 L71.0,42.8 L70.9,43.9 L68.7,46.8 L68.3,47.7 L68.2,48.5 L66.8,49.8 L66.5,51.5 L66.5,51.9 L66.1,53.2 L67.3,56.2 L67.7,56.5 L67.8,59.0 L67.6,60.2 L67.4,60.9 L66.6,62.1 L66.1,63.9 L65.8,64.2 L65.0,67.6 L63.7,71.0 L63.9,72.8 L64.8,72.6 L65.8,76.9 L65.5,76.6 L64.3,76.6 L63.6,77.4 L63.2,78.2 L62.5,78.8 L61.1,79.0 L60.2,78.9 L59.3,79.2 L58.9,79.6 L58.0,79.1 L57.1,79.6 L56.0,79.4 L55.5,79.8 L55.0,79.2 L54.6,79.1 L54.4,78.6 L52.9,77.8 L52.5,77.8 L52.2,77.3 L45.7,79.9 L27.9,70.4 L18.5,57.7 L22.5,51.3 L26.7,42.8 L26.2,39.4 L24.2,30.5 L23.0,25.9 L22.9,24.1 L23.2,20.3 L24.9,15.2 L33.6,17.4 L44.5,22.9 L56.2,21.6 Z"><title>Schoharie County</title></path>
+              <path fill="#CAA700" fill-opacity="0.22" stroke="#CAA700" stroke-width="1.6" stroke-linejoin="round" d="M76.9,180.7 L77.7,185.2 L71.8,183.7 L71.5,184.1 L65.1,182.1 L65.2,178.9 L63.8,178.4 L63.4,178.9 L63.1,178.9 L62.6,179.4 L62.1,179.4 L60.9,180.4 L60.6,180.2 L59.7,180.7 L59.6,181.6 L59.0,181.3 L58.1,182.4 L57.1,182.7 L57.2,183.0 L56.9,183.3 L56.6,183.2 L56.0,183.6 L55.8,183.2 L55.1,183.0 L54.8,183.5 L54.9,183.8 L54.7,183.8 L54.8,184.0 L53.3,184.0 L53.7,183.7 L52.5,183.1 L52.5,182.2 L52.2,182.0 L52.0,180.9 L51.5,180.4 L51.4,179.0 L50.9,178.3 L50.8,177.2 L50.6,176.7 L32.3,163.0 L41.3,150.8 L44.6,145.3 L27.3,135.0 L11.6,126.1 L34.5,111.7 L36.8,108.3 L39.5,108.5 L44.8,105.2 L59.4,112.7 L82.9,115.1 L86.2,105.1 L88.0,106.2 L90.1,106.0 L90.3,104.2 L98.8,110.7 L99.5,110.9 L98.5,113.3 L97.7,117.2 L97.6,117.9 L98.0,118.7 L97.8,119.5 L97.3,120.0 L97.2,122.9 L96.9,124.2 L97.2,126.2 L95.3,134.2 L94.8,139.1 L94.1,140.2 L94.3,141.8 L96.1,144.5 L96.5,145.5 L96.6,146.5 L96.5,147.3 L95.7,148.9 L95.6,152.7 L95.7,153.4 L95.3,157.2 L95.4,159.6 L96.5,161.8 L96.5,164.8 L95.9,169.3 L96.3,171.4 L95.8,173.7 L95.9,175.2 L95.3,179.4 L95.2,184.2 L85.1,185.5 L85.1,184.8 L83.6,182.0 L81.4,183.0 L81.0,182.1 L80.5,181.9 L76.9,180.7 Z"><title>Ulster County</title></path>
+              <path fill="#CAA700" fill-opacity="0.22" stroke="#CAA700" stroke-width="1.6" stroke-linejoin="round" d="M99.1,111.8 L100.4,109.1 L100.8,107.6 L101.3,106.8 L101.3,105.6 L101.5,105.3 L101.7,105.1 L102.3,105.1 L102.8,104.7 L103.2,104.6 L104.3,103.4 L105.1,102.2 L105.7,99.7 L105.6,98.2 L105.9,96.9 L107.4,95.0 L107.8,94.8 L108.4,94.8 L109.2,94.1 L110.4,93.7 L111.6,92.2 L112.1,91.1 L112.3,90.1 L112.7,86.6 L112.3,84.7 L112.5,84.0 L112.4,83.1 L111.8,80.5 L111.4,79.7 L111.7,79.2 L111.7,78.8 L111.3,76.8 L111.5,75.7 L111.9,74.5 L112.3,72.8 L113.2,69.7 L113.4,67.7 L113.3,66.7 L113.1,66.6 L113.2,66.4 L112.9,65.7 L112.9,65.5 L113.2,65.6 L113.2,65.4 L112.9,65.1 L112.4,65.0 L132.9,62.2 L141.3,60.8 L156.0,58.8 L140.3,116.5 L141.4,121.5 L138.9,121.5 L138.3,131.3 L119.7,127.6 L115.2,125.1 L100.3,117.7 L99.8,117.4 L99.8,117.6 L99.0,117.3 L98.9,117.9 L97.6,117.6 L98.4,113.5 L99.1,111.8 Z"><title>Columbia County</title></path>
+              <path fill="#CAA700" fill-opacity="0.22" stroke="#CAA700" stroke-width="1.6" stroke-linejoin="round" d="M141.1,144.4 L140.0,161.2 L138.9,180.2 L138.0,192.8 L133.0,192.9 L121.6,194.8 L100.3,197.5 L97.2,198.1 L92.4,204.8 L91.9,204.0 L90.7,203.0 L90.5,202.2 L90.8,199.9 L90.7,198.8 L91.0,196.7 L90.7,196.0 L90.9,193.4 L91.8,190.5 L93.2,188.3 L94.4,187.2 L95.1,185.1 L95.3,183.5 L95.3,179.4 L95.9,175.2 L95.8,173.7 L96.3,171.4 L95.9,169.3 L96.5,164.8 L96.5,161.8 L96.3,161.2 L95.4,159.6 L95.3,157.2 L95.6,155.6 L95.7,153.4 L95.6,152.7 L95.7,148.9 L95.8,148.3 L96.5,147.3 L96.6,146.3 L96.4,145.3 L96.1,144.5 L94.3,141.8 L94.1,140.2 L94.8,139.1 L95.3,134.2 L96.6,128.9 L96.6,128.4 L97.2,126.2 L97.2,125.4 L96.9,124.7 L96.9,124.2 L96.9,123.6 L97.2,122.9 L97.3,120.0 L97.8,119.5 L98.0,118.7 L98.0,118.4 L97.6,118.0 L97.6,117.6 L98.9,117.9 L99.0,117.3 L99.8,117.6 L99.8,117.4 L100.3,117.7 L115.2,125.1 L119.7,127.6 L138.3,131.3 L138.9,121.5 L142.4,121.5 L142.1,128.3 L141.1,144.4 Z"><title>Dutchess County</title></path>
+            </svg>
+            <ul class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
+              <li class="panel px-4 py-3 text-base">Schoharie County</li>
+              <li class="panel px-4 py-3 text-base">Columbia County</li>
+              <li class="panel px-4 py-3 text-base">Ulster County</li>
+              <li class="panel px-4 py-3 text-base">Dutchess County</li>
+              <li class="panel px-4 py-3 text-base text-wheat/80">Putnam — coming soon</li>
+              <li>
+                <a href="#estimate" class="btn flex h-full w-full items-center justify-center py-3 text-base leading-6 md:py-3 md:text-base md:leading-6">Request an Estimate</a>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="mt-auto shrink-0 border-t border-gold/40 bg-forest-deep">
+      <div class="mx-auto max-w-7xl px-5 py-5 md:px-8">
+        <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+          <div class="flex items-center justify-between gap-4 lg:contents">
+            <a href="#home" class="shrink-0">
+              <img
+                src="images/logo-horizontal.png"
+                width="800"
+                height="211"
+                alt="Arbor Solutions, tree and trail"
+                class="h-9 w-auto"
+              />
+            </a>
+            <a
+              class="text-base text-ink underline decoration-gold underline-offset-4 lg:order-3"
+              href="mailto:info@ArborSolutionsNY.com"
+              >info@ArborSolutionsNY.com</a
+            >
+          </div>
+          <p class="text-base leading-relaxed text-ink lg:order-2 lg:flex-1 lg:text-center">
+            <span class="mr-2 text-sm font-semibold uppercase tracking-[0.16em] text-gold">Serving</span>
+            Schoharie
+            <span class="px-1.5 text-gold/50" aria-hidden="true">·</span>
+            Columbia
+            <span class="px-1.5 text-gold/50" aria-hidden="true">·</span>
+            Ulster
+            <span class="px-1.5 text-gold/50" aria-hidden="true">·</span>
+            Dutchess
+            <span class="px-1.5 text-gold/50" aria-hidden="true">·</span>
+            <span class="text-wheat/80">Putnam coming soon</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

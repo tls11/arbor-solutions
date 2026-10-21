@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: dark;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+@layer components {
+  .btn {
+    @apply inline-block rounded-md bg-gold px-6 py-3.5 text-center text-base font-semibold text-forest hover:bg-olive focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wheat disabled:opacity-60 md:text-lg;
+  }
+
+  .btn-sm {
+    @apply px-5 py-2.5 text-sm md:text-base;
+  }
+
+  .phone-link-compact {
+    @apply block whitespace-nowrap font-serif text-lg font-semibold leading-none text-wheat sm:text-xl;
+  }
+
+  .btn-quiet {
+    @apply inline-block rounded-md bg-transparent px-6 py-3.5 text-center text-base font-semibold text-ink ring-1 ring-gold hover:bg-gold hover:text-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-wheat md:text-lg;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-gold/40 bg-forest-deep px-3 py-3 text-lg text-ink;
+  }
+
+  .panel {
+    @apply rounded-md border border-gold/40 bg-forest-deep;
+  }
+
+  .panel-soft {
+    @apply rounded-md border border-gold/30 bg-forest-deep;
+  }
+
+  .chip {
+    @apply rounded-md border border-gold;
+  }
+
+  .display {
+    @apply font-serif text-4xl leading-[1.12] text-ink sm:text-5xl;
+  }
+
+  .section-title {
+    @apply font-serif text-3xl leading-tight text-ink;
+  }
+
+  .copy {
+    @apply max-w-3xl text-lg leading-relaxed text-ink md:text-xl;
+  }
+
+  .copy-wide {
+    @apply max-w-5xl;
+  }
+
+  .copy-wide .copy {
+    @apply max-w-none;
+  }
+
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.18em] text-gold;
+  }
+
+  .phone-link {
+    @apply block whitespace-nowrap font-serif text-xl font-semibold leading-none text-wheat sm:text-2xl lg:text-3xl;
+  }
+
+  .nav-link {
+    @apply border-b-2 border-transparent pb-1 text-xl font-medium tracking-wide text-ink hover:text-wheat md:text-2xl;
+  }
+
+  .card {
+    @apply panel grid h-full grid-cols-[auto_1fr] items-center gap-x-5 gap-y-1.5 p-5 shadow-sm transition hover:border-gold md:px-6 md:py-5;
+  }
+
+  .card > .icon-badge {
+    @apply row-span-2;
+  }
+
+  .card > p {
+    @apply col-start-2;
+  }
+
+  .icon-badge {
+    @apply inline-flex h-14 w-14 items-center justify-center rounded-md border border-gold/60 bg-gold/10 text-gold;
+  }
+
+  .service-heading {
+    @apply flex flex-wrap items-center gap-4;
+  }
+
+  .photo {
+    @apply h-auto w-full rounded-md border border-gold/30 object-cover;
+  }
+
+  .photo-pair-frame {
+    @apply relative aspect-[4/5] w-full overflow-hidden rounded-md border border-gold/30;
+  }
+
+  .photo-pair-frame img {
+    @apply absolute inset-0 h-full w-full max-w-none object-cover;
+  }
+
+  .photo-pair-frame img.photo-pair-owners {
+    object-position: center 48%;
+  }
+
+  .photo-pair-frame img.photo-pair-championship {
+    right: auto;
+    bottom: auto;
+    left: -2%;
+    top: -26%;
+    width: 132%;
+    height: auto;
+    object-fit: fill;
+  }
+}
