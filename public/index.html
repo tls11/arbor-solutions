@@ -572,13 +572,15 @@
 
       <div x-cloak x-show="$store.route.is('#tree-care')" x-transition.duration.300ms>
         <article>
-          <img
-            src="images/tree-care.jpg"
-            width="1920"
-            height="1080"
-            alt="A tape measure stretched across a cut stump, held by a person in a high-visibility jacket."
-            class="aspect-video w-full object-cover object-center"
-          />
+          <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
+            <img
+              src="images/tree-care.jpg"
+              width="1920"
+              height="1080"
+              alt="A tape measure stretched across a cut stump, held by a person in a high-visibility jacket."
+              class="absolute inset-0 h-full w-full object-cover object-center"
+            />
+          </div>
           <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
             <header class="service-heading">
               <span class="icon-badge shrink-0" aria-hidden="true">
@@ -611,13 +613,15 @@
 
       <div x-cloak x-show="$store.route.is('#trails')" x-transition.duration.300ms>
         <article>
-          <img
-            src="images/hero-trails.jpg"
-            width="2000"
-            height="1125"
-            alt="A footpath along a mossy stand of hardwoods."
-            class="aspect-video w-full object-cover object-center"
-          />
+          <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
+            <img
+              src="images/hero-trails.jpg"
+              width="2000"
+              height="1125"
+              alt="A footpath along a mossy stand of hardwoods."
+              class="absolute inset-0 h-full w-full object-cover object-center"
+            />
+          </div>
           <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
             <header class="service-heading">
               <span class="icon-badge shrink-0" aria-hidden="true">
