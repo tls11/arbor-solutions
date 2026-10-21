@@ -92,7 +92,11 @@ html {
   }
 
   .service-heading {
-    @apply flex flex-wrap items-center gap-4;
+    @apply flex items-center gap-4;
+  }
+
+  .service-heading > .display {
+    @apply min-w-0;
   }
 
   .photo {
