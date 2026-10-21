@@ -393,7 +393,7 @@
     </div>
 
     <main class="flex flex-1 flex-col">
-      <div x-cloak x-show="$store.route.is('#home')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#home')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <section>
           <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
             <img
@@ -556,7 +556,7 @@
         </section>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#about')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#about')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
           <div class="grid items-center gap-10 md:grid-cols-2 md:gap-16">
             <div>
@@ -648,7 +648,7 @@
         </article>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#tree-care')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#tree-care')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article>
           <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
             <img
@@ -689,7 +689,7 @@
         </article>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#trails')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#trails')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article>
           <div class="relative h-64 overflow-hidden sm:h-80 md:h-96 lg:h-[30rem] xl:h-[34rem]">
             <img
@@ -720,7 +720,7 @@
         </article>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#climbing')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#climbing')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article class="mx-auto grid max-w-7xl items-start gap-10 px-5 py-16 md:grid-cols-2 md:px-8 md:py-24">
           <img
             src="images/contract-climbing.jpg"
@@ -750,7 +750,7 @@
       </div>
 
       <!-- Reports body copy is placeholder until client provides final text. -->
-      <div x-cloak x-show="$store.route.is('#reports')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#reports')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
           <header class="service-heading">
             <span class="icon-badge shrink-0" aria-hidden="true">
@@ -765,7 +765,7 @@
         </article>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#estimate')" x-transition.duration.300ms>
+      <div x-cloak x-show="$store.route.is('#estimate')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
         <article class="mx-auto max-w-3xl px-5 py-16 md:px-8 md:py-24">
           <h1 class="display">Request an Estimate</h1>
 
@@ -1054,7 +1054,7 @@
         </article>
       </div>
 
-      <div x-cloak x-show="$store.route.is('#contact')" x-transition.duration.300ms class="flex flex-1 flex-col">
+      <div x-cloak x-show="$store.route.is('#contact')" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="flex flex-1 flex-col">
         <article class="mx-auto flex w-full max-w-3xl flex-1 flex-col px-5 py-16 md:px-8 md:py-24">
           <p class="font-serif text-3xl leading-tight text-ink md:text-4xl">Call or email for your tree and trail needs.</p>
           <div class="mt-10 grid gap-7 border-t border-gold/30 pt-8 sm:grid-cols-2 sm:gap-x-12">
