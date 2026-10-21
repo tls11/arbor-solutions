@@ -50,17 +50,36 @@
           },
           init() {
             window.addEventListener("hashchange", () => this.updateFromHash())
+            document.addEventListener("click", (event) => {
+              const link = event.target.closest('a[href="#estimate"]')
+              if (link) this.resetEstimate()
+            })
             this.updateFromHash()
           },
           updateFromHash() {
             const known = Object.keys(this.titles)
             const hash = window.location.hash || "#home"
-            this.page = known.includes(hash) ? hash : "#home"
+            const nextPage = known.includes(hash) ? hash : "#home"
+            if (this.page === "#estimate" && nextPage !== "#estimate") this.resetEstimate()
+            this.page = nextPage
             this.mobileMenuIsOpen = false
             this.servicesMenuIsOpen = false
             document.title = this.titles[this.page]
             document.getElementById("meta-description").setAttribute("content", this.descriptions[this.page])
             window.scrollTo(0, 0)
+          },
+          resetEstimate() {
+            if (this.formStatus !== "sent") return
+            this.formStatus = ""
+            const form = document.querySelector('form[name="estimate"]')
+            if (!form) return
+            form.reset()
+            for (const control of form.querySelectorAll("input, textarea")) control.setCustomValidity("")
+            for (const scope of form.querySelectorAll("[x-data]")) {
+              const data = Alpine.$data(scope)
+              if ("county" in data) data.county = null
+              if (Array.isArray(data.values)) data.values = []
+            }
           },
           is(hash) {
             return this.page === hash
