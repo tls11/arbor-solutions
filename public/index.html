@@ -68,6 +68,38 @@
           isService() {
             return ["#tree-care", "#trails", "#climbing", "#reports"].includes(this.page)
           },
+          trimField(control) {
+            if (!control || (control.tagName !== "INPUT" && control.tagName !== "TEXTAREA")) return
+            if (control.type === "hidden" || control.type === "button" || control.type === "submit") return
+            const trimmed = control.value.trim()
+            if (trimmed !== control.value) control.value = trimmed
+            if (control.name === "phone") this.validatePhone(control)
+          },
+          prepareEstimate(form) {
+            if (!form) return
+            for (const control of form.querySelectorAll("input, textarea")) this.trimField(control)
+          },
+          validatePhone(control) {
+            const value = control.value.trim()
+            if (!value) {
+              control.setCustomValidity("")
+              return
+            }
+            if (/[^0-9+().\-\s]/.test(value)) {
+              control.setCustomValidity("Use digits and phone symbols only")
+              return
+            }
+            const digitCount = value.replace(/\D/g, "").length
+            if (digitCount < 10) {
+              control.setCustomValidity("Enter a phone number with at least 10 digits")
+              return
+            }
+            if (digitCount > 15) {
+              control.setCustomValidity("Enter a shorter phone number")
+              return
+            }
+            control.setCustomValidity("")
+          },
           async submitEstimate(event) {
             const form = event.target
             if (this.formStatus === "sending") return
@@ -727,6 +759,7 @@
             action="/"
             data-netlify="true"
             netlify-honeypot="bot-field"
+            @focusout="$store.route.trimField($event.target)"
             @submit.prevent="$store.route.submitEstimate($event)"
           >
             <input type="hidden" name="form-name" value="estimate" />
@@ -737,26 +770,81 @@
             <div class="grid gap-5 sm:grid-cols-2">
               <div>
                 <label class="mb-2 block text-base font-semibold text-gold" for="first-name">First name</label>
-                <input class="field" id="first-name" name="first-name" type="text" autocomplete="given-name" required />
+                <input
+                  class="field"
+                  id="first-name"
+                  name="first-name"
+                  type="text"
+                  autocomplete="given-name"
+                  required
+                  minlength="2"
+                  maxlength="80"
+                  pattern=".*\S.*"
+                  title="Enter your first name"
+                />
               </div>
               <div>
                 <label class="mb-2 block text-base font-semibold text-gold" for="last-name">Last name</label>
-                <input class="field" id="last-name" name="last-name" type="text" autocomplete="family-name" required />
+                <input
+                  class="field"
+                  id="last-name"
+                  name="last-name"
+                  type="text"
+                  autocomplete="family-name"
+                  required
+                  minlength="2"
+                  maxlength="80"
+                  pattern=".*\S.*"
+                  title="Enter your last name"
+                />
               </div>
             </div>
             <div class="grid gap-5 sm:grid-cols-2">
               <div>
                 <label class="mb-2 block text-base font-semibold text-gold" for="email">Email</label>
-                <input class="field" id="email" name="email" type="email" autocomplete="email" required />
+                <input
+                  class="field"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  maxlength="254"
+                  pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                  title="Enter a valid email address"
+                />
               </div>
               <div>
                 <label class="mb-2 block text-base font-semibold text-gold" for="phone">Phone</label>
-                <input class="field" id="phone" name="phone" type="tel" autocomplete="tel" required />
+                <input
+                  class="field"
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  required
+                  maxlength="30"
+                  inputmode="tel"
+                  pattern="[0-9+().\-\s]+"
+                  title="Enter a phone number with at least 10 digits"
+                  @input="$store.route.validatePhone($event.target)"
+                />
               </div>
             </div>
             <div>
               <label class="mb-2 block text-base font-semibold text-gold" for="address">Property address</label>
-              <input class="field" id="address" name="address" type="text" autocomplete="street-address" required />
+              <input
+                class="field"
+                id="address"
+                name="address"
+                type="text"
+                autocomplete="street-address"
+                required
+                minlength="5"
+                maxlength="200"
+                pattern=".*\S.*"
+                title="Enter the property address"
+              />
             </div>
             <div class="grid gap-5 sm:grid-cols-2">
               <div
@@ -920,9 +1008,25 @@
             </div>
             <div>
               <label class="mb-2 block text-base font-semibold text-gold" for="message">What do you need?</label>
-              <textarea class="field min-h-36" id="message" name="message" required></textarea>
+              <textarea
+                class="field min-h-36"
+                id="message"
+                name="message"
+                required
+                minlength="10"
+                maxlength="2000"
+                pattern=".*\S.*"
+                title="Tell us what you need"
+              ></textarea>
             </div>
-            <button class="btn w-full sm:w-auto" type="submit" :disabled="$store.route.formStatus === 'sending'">Send request</button>
+            <button
+              class="btn w-full sm:w-auto"
+              type="submit"
+              :disabled="$store.route.formStatus === 'sending'"
+              @click="$store.route.prepareEstimate($event.target.form)"
+            >
+              Send request
+            </button>
           </form>
 
           <p x-show="$store.route.formStatus === 'sent'" x-cloak class="mt-10 font-serif text-2xl md:text-3xl">
