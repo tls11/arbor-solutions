@@ -20,7 +20,7 @@ html {
   }
 
   .phone-link-compact {
-    @apply block whitespace-nowrap font-serif text-lg font-semibold leading-none text-wheat sm:text-xl;
+    @apply block whitespace-nowrap font-serif text-base font-semibold leading-none text-wheat sm:text-xl;
   }
 
   .btn-quiet {
