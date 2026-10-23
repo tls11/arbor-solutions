@@ -19,8 +19,12 @@ html {
     @apply px-5 py-2.5 text-sm md:text-base;
   }
 
+  .btn-outline {
+    @apply bg-transparent text-ink ring-1 ring-gold hover:bg-gold hover:text-forest;
+  }
+
   .phone-link-compact {
-    @apply block whitespace-nowrap font-serif text-base font-semibold leading-none text-wheat sm:text-xl;
+    @apply block whitespace-nowrap font-serif text-sm font-semibold leading-none text-wheat sm:text-lg;
   }
 
   .btn-quiet {
@@ -73,6 +77,69 @@ html {
 
   .nav-link {
     @apply border-b-2 border-transparent pb-1 text-xl font-medium tracking-wide text-ink hover:text-wheat md:text-2xl;
+  }
+
+  .header-brand {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 300ms ease-out;
+  }
+
+  .header-compact .header-brand {
+    grid-template-rows: 0fr;
+  }
+
+  .header-brand-clip {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .header-brand-fade {
+    opacity: 1;
+    transition: opacity 200ms ease-out 80ms;
+  }
+
+  .header-compact .header-brand-fade {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease-out;
+  }
+
+  .header-bar {
+    position: relative;
+  }
+
+  .header-compact-logo {
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    z-index: 1;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease-out;
+  }
+
+  .header-compact .header-compact-logo {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 200ms ease-out 100ms;
+  }
+
+  .header-nav {
+    @apply flex flex-nowrap items-center justify-center gap-10 border-t border-gold/30 py-4;
+  }
+
+  .header-compact .header-nav {
+    @apply border-t-0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-brand,
+    .header-brand-fade,
+    .header-compact-logo {
+      transition: none;
+    }
   }
 
   .card {

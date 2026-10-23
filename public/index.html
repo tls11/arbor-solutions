@@ -48,13 +48,24 @@
             "#contact":
               "Call or email Arbor Solutions. Serving Dutchess, Ulster, Columbia, and Schoharie counties.",
           },
+          headerIsCompact: false,
           init() {
             window.addEventListener("hashchange", () => this.updateFromHash())
+            window.addEventListener("scroll", () => this.syncHeader(), { passive: true })
             document.addEventListener("click", (event) => {
               const link = event.target.closest('a[href="#estimate"]')
               if (link) this.resetEstimate()
             })
             this.updateFromHash()
+            this.syncHeader()
+          },
+          syncHeader() {
+            // The brand row is about 115px. Scroll anchoring shifts scrollY by that
+            // amount as it collapses, so the two thresholds stay further apart than that.
+            const compact = this.headerIsCompact ? window.scrollY > 32 : window.scrollY > 160
+            if (compact === this.headerIsCompact) return
+            this.headerIsCompact = compact
+            this.servicesMenuIsOpen = false
           },
           updateFromHash() {
             const known = Object.keys(this.titles)
@@ -166,7 +177,7 @@
 
     <header class="sticky top-0 z-40 border-b border-gold/40 bg-forest-deep">
       <div class="sm:hidden">
-        <div class="relative flex items-center justify-center px-5 py-3">
+        <div class="relative flex items-center justify-center px-5 py-2">
           <a
             href="tel:+18453701868"
             class="absolute left-1 top-1/2 inline-flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center text-wheat"
@@ -176,7 +187,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
             </svg>
           </a>
-          <a href="#home" class="w-64 max-w-[calc(100%-6.5rem)]">
+          <a href="#home" class="w-56 max-w-[calc(100%-6.5rem)]">
             <img
               src="images/logo-horizontal.png"
               width="800"
@@ -198,14 +209,14 @@
         </div>
       </div>
 
-      <div class="mx-auto hidden max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:flex md:px-8 md:py-4">
+      <div class="mx-auto hidden max-w-7xl items-center justify-between gap-4 px-5 py-2 sm:flex md:hidden">
         <a href="#home" class="shrink-0">
           <img
             src="images/logo-horizontal.png"
             width="800"
             height="211"
             alt="Arbor Solutions, tree and trail"
-            class="h-auto w-52 md:w-72"
+            class="h-auto w-52"
           />
         </a>
 
@@ -214,10 +225,10 @@
             <span class="eyebrow text-xs">Call</span>
             <span class="phone-link-compact mt-0.5">845-370-1868</span>
           </a>
-          <a href="#estimate" class="btn btn-sm whitespace-nowrap">Request an Estimate</a>
+          <a href="#estimate" class="btn btn-sm btn-outline whitespace-nowrap">Request an Estimate</a>
           <button
             type="button"
-            class="inline-flex min-h-11 min-w-11 items-center justify-center text-ink md:hidden"
+            class="inline-flex min-h-11 min-w-11 items-center justify-center text-ink"
             @click="$store.route.mobileMenuIsOpen = true"
             aria-label="Open menu"
           >
@@ -228,12 +239,41 @@
         </div>
       </div>
 
-      <div class="border-t border-gold/30 px-5 py-3 sm:hidden">
-        <a href="#estimate" class="btn btn-sm w-full">Request an Estimate</a>
-      </div>
+      <div class="hidden md:block" :class="$store.route.headerIsCompact && 'header-compact'">
+        <div class="header-brand">
+          <div class="header-brand-clip">
+            <div class="header-brand-fade mx-auto flex max-w-7xl items-center justify-between gap-4 px-8 py-4" :inert="$store.route.headerIsCompact">
+              <a href="#home" class="shrink-0">
+                <img
+                  src="images/logo-horizontal.png"
+                  width="800"
+                  height="211"
+                  alt="Arbor Solutions, tree and trail"
+                  class="h-auto w-72"
+                />
+              </a>
+              <div class="flex items-center gap-5">
+                <a href="tel:+18453701868" class="text-right">
+                  <span class="eyebrow text-xs">Call</span>
+                  <span class="phone-link-compact mt-0.5">845-370-1868</span>
+                </a>
+                <a href="#estimate" class="btn btn-sm btn-outline whitespace-nowrap">Request an Estimate</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="mx-auto hidden max-w-7xl px-5 md:block md:px-8">
-        <nav class="flex items-center justify-center gap-10 border-t border-gold/30 py-4" aria-label="Primary">
+        <div class="header-bar mx-auto max-w-7xl px-8">
+          <a href="#home" class="header-compact-logo" inert :inert="!$store.route.headerIsCompact">
+            <img
+              src="images/logo-horizontal.png"
+              width="800"
+              height="211"
+              alt="Arbor Solutions, tree and trail"
+              class="h-auto w-28 max-w-none lg:w-40"
+            />
+          </a>
+          <nav class="header-nav" aria-label="Primary">
           <a
             href="#home"
             class="nav-link"
@@ -307,7 +347,8 @@
             :aria-current="$store.route.is('#contact') ? 'page' : false"
             >Contact</a
           >
-        </nav>
+          </nav>
+        </div>
       </div>
     </header>
 
@@ -365,8 +406,7 @@
             </svg>
           </button>
         </div>
-        <a href="#estimate" class="btn mt-8 w-full" @click="$store.route.mobileMenuIsOpen = false">Request an Estimate</a>
-        <nav class="mt-6 flex flex-col text-3xl" aria-label="Mobile">
+        <nav class="mt-8 flex flex-col text-3xl" aria-label="Mobile">
           <a class="border-b border-gold/30 py-4" href="#home" @click="$store.route.mobileMenuIsOpen = false">Home</a>
           <a class="border-b border-gold/30 py-4" href="#about" @click="$store.route.mobileMenuIsOpen = false">About</a>
           <div x-disclosure class="border-b border-gold/30">
@@ -395,6 +435,7 @@
           </div>
           <a class="border-b border-gold/30 py-4" href="#contact" @click="$store.route.mobileMenuIsOpen = false">Contact</a>
         </nav>
+        <a href="#estimate" class="btn btn-sm btn-outline mt-8 w-full" @click="$store.route.mobileMenuIsOpen = false">Request an Estimate</a>
       </div>
     </div>
 
@@ -502,7 +543,7 @@
           </div>
         </section>
 
-        <section id="services" class="scroll-mt-40 border-t border-gold/30">
+        <section id="services" class="scroll-mt-20 border-t border-gold/30">
           <div class="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
             <h2 class="section-title">Services</h2>
             <ul class="mt-10 grid gap-6 sm:grid-cols-2">
@@ -690,7 +731,7 @@
                 Stewardship: proactive approach to assess tree health, wellness checks, mitigation, 1, 3 or 5 year tree care plans
               </li>
             </ul>
-            <a href="#estimate" class="btn mt-10 hidden sm:inline-block">Request an Estimate</a>
+            <a href="#estimate" class="btn mt-10 w-full sm:w-auto">Request an Estimate</a>
           </div>
         </article>
       </div>
@@ -721,7 +762,7 @@
               <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Mapping</li>
               <li class="panel px-5 py-4 text-lg font-medium md:text-xl">Maintenance</li>
             </ul>
-            <a href="#estimate" class="btn mt-10 hidden sm:inline-block">Request an Estimate</a>
+            <a href="#estimate" class="btn mt-10 w-full sm:w-auto">Request an Estimate</a>
           </div>
         </article>
       </div>
@@ -750,7 +791,7 @@
               <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">SRS &amp; MRS Climbing Systems</li>
               <li class="panel px-5 py-4 text-lg leading-relaxed md:text-xl">Spikeless</li>
             </ul>
-            <a href="#estimate" class="btn mt-8 hidden sm:inline-block">Request an Estimate</a>
+            <a href="#estimate" class="btn mt-8 w-full sm:w-auto">Request an Estimate</a>
           </div>
         </article>
       </div>
@@ -767,7 +808,7 @@
           <p class="copy mt-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio praesent libero sed cursus ante dapibus diam.
           </p>
-          <a href="#estimate" class="btn mt-8 hidden sm:inline-block">Request an Estimate</a>
+          <a href="#estimate" class="btn mt-8 w-full sm:w-auto">Request an Estimate</a>
         </article>
       </div>
 
@@ -1097,7 +1138,7 @@
               <li class="panel px-4 py-3 text-base">Ulster County</li>
               <li class="panel px-4 py-3 text-base">Dutchess County</li>
               <li class="panel px-4 py-3 text-base text-wheat/80">Putnam — coming soon</li>
-              <li class="hidden sm:block">
+              <li>
                 <a href="#estimate" class="btn flex h-full w-full items-center justify-center py-3 text-base leading-6 md:py-3 md:text-base md:leading-6">Request an Estimate</a>
               </li>
             </ul>
