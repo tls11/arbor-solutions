@@ -131,7 +131,7 @@ html {
   }
 
   .header-compact .header-nav {
-    @apply border-t-0;
+    @apply border-t-0 pl-16;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -170,25 +170,63 @@ html {
     @apply h-auto w-full rounded-md border border-gold/30 object-cover;
   }
 
-  .photo-pair-frame {
-    @apply relative aspect-[4/5] w-full overflow-hidden rounded-md border border-gold/30;
+  .viewer-control {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-full border border-gold/60 bg-forest-deep text-wheat hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold;
   }
 
-  .photo-pair-frame img {
-    @apply absolute inset-0 h-full w-full max-w-none object-cover;
+  .climb-slideshow {
+    @apply overflow-hidden rounded-md border border-gold/30;
   }
 
-  .photo-pair-frame img.photo-pair-owners {
-    object-position: center 48%;
+  .climb-slideshow:not(.is-initialized) {
+    visibility: visible;
   }
 
-  .photo-pair-frame img.photo-pair-championship {
-    right: auto;
-    bottom: auto;
-    left: -2%;
-    top: -26%;
-    width: 132%;
-    height: auto;
-    object-fit: fill;
+  .climb-slideshow:not(.is-initialized) .splide__slide + .splide__slide {
+    display: none;
+  }
+
+  .climb-slideshow .splide__slide img {
+    @apply aspect-[3/4] h-auto w-full object-cover object-center;
+  }
+
+  .climb-slideshow .splide__arrow {
+    background: #01462b;
+    height: 2.75rem;
+    opacity: 1;
+    width: 2.75rem;
+  }
+
+  .climb-slideshow .splide__arrow svg {
+    fill: #caa700;
+  }
+
+  .climb-slideshow .splide__arrow:hover:not(:disabled) {
+    background: #012818;
+    opacity: 1;
+  }
+
+  .climb-slideshow .splide__arrow:focus-visible,
+  .climb-slideshow .splide__pagination__page:focus-visible {
+    outline: 3px solid #caa700;
+    outline-offset: 3px;
+  }
+
+  .climb-slideshow .splide__pagination {
+    padding: 0.85rem 0 0.7rem;
+    position: static;
+  }
+
+  .climb-slideshow .splide__pagination__page {
+    background: transparent;
+    border: 1px solid #caa700;
+    height: 10px;
+    opacity: 1;
+    width: 10px;
+  }
+
+  .climb-slideshow .splide__pagination__page.is-active {
+    background: #caa700;
+    transform: none;
   }
 }
